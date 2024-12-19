@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @AllArgsConstructor
@@ -15,10 +16,12 @@ import lombok.Setter;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "tenSanPham")
+    @Column(name = "TEN_SAN_PHAM")
     private String tenSanPham;
-    @Column(name = "image")
+    @Column(name = "MO_TA")
+    private String moTa;
+    @Column(name = "IMAGE")
     private String image;
 }

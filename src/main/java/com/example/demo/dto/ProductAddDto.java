@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 @Setter
 @Getter
@@ -11,5 +14,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductAddDto {
     private String tenSanPham;
-    private String image;
+    private String moTa;
 }

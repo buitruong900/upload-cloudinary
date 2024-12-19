@@ -8,5 +8,5 @@ import java.io.IOException;
 
 public interface UploadImageFileService {
     String uploadImage(MultipartFile file) throws IOException;
-    ProductEntity add(ProductAddDto productAddDto);
+    ProductEntity add(ProductAddDto productAddDto,String imageUrl) throws IOException;
 }

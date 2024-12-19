@@ -31,14 +31,13 @@ public class UploadImageFileServiceImpl implements UploadImageFileService {
     private final Cloudinary cloudinary;
 
     @Override
-    public ProductEntity add(ProductAddDto productAddDto) {
+    public ProductEntity add(ProductAddDto productAddDto,String imageUrl) throws IOException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setTenSanPham(productAddDto.getTenSanPham());
-        productEntity.setImage(productAddDto.getImage());
+        productEntity.setMoTa(productAddDto.getMoTa());
+        productEntity.setImage(imageUrl);
         return productRepository.save(productEntity);
     }
-
-
 
     @Override
     public String uploadImage(MultipartFile file) throws IOException {
@@ -54,11 +53,11 @@ public class UploadImageFileServiceImpl implements UploadImageFileService {
         return  cloudinary.url().generate(StringUtils.join(publicValue, ".", extension));
     }
 
-    private File convert(MultipartFile file) throws IOException{
-        assert file.getOriginalFilename() != null;
-        File convFile = new File(StringUtils.join(generatePublicValue(file.getOriginalFilename()),getFileName(file.getOriginalFilename())[1]));
-        try(InputStream is = file.getInputStream()) {
-            Files.copy(is,convFile.toPath());
+    private File convert(MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        File convFile = new File(System.getProperty("java.io.tmpdir"), fileName);
+        try (InputStream is = file.getInputStream()) {
+            Files.copy(is, convFile.toPath());
         }
         return convFile;
     }
@@ -78,6 +77,13 @@ public class UploadImageFileServiceImpl implements UploadImageFileService {
     }
 
     public String[] getFileName(String originalName) {
-        return originalName.split("\\.");
+        int dotIndex = originalName.lastIndexOf('.');
+        if (dotIndex > 0) {
+            return new String[]{
+                    originalName.substring(0, dotIndex),
+                    originalName.substring(dotIndex + 1)
+            };
+        }
+        return new String[]{originalName, ""};
     }
 }
